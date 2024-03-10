@@ -1,5 +1,7 @@
 package org.nau.Task3;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Task3 {
@@ -18,10 +20,11 @@ public class Task3 {
         }
 
         int[][] array = new int[M][N];
-        System.out.println("Введіть елементи масиву:");
+        Random random = new Random();
+
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
-                array[i][j] = scanner.nextInt();
+                array[i][j] = random.nextInt(100);
             }
         }
 
@@ -31,23 +34,28 @@ public class Task3 {
         System.out.println("Початковий масив:");
         printArray(array);
 
-        for (int i = 0; i < M; i++) {
-            int temp = array[i][N - 1];
-            for (int j = N - 1; j > 0; j--) {
-                array[i][j] = array[i][j - 1];
+        for (int y = 0; y < shiftValue; y++) {
+            int count = 0;
+            int[] oneDArray = Arrays.stream(array)
+                    .flatMapToInt(Arrays::stream)
+                    .toArray();
+            int lastElement = oneDArray[oneDArray.length - 1];
+            System.arraycopy(oneDArray, 0, oneDArray, 1, oneDArray.length - 1);
+            oneDArray[0] = lastElement;
+            for (int i = 0; i < M; i++) {
+                for (int j = 0; j < N; j++) {
+                    array[i][j] = oneDArray[count];
+                    count++;
+                }
             }
-            if (i < M - 1) {
-                array[i + 1][0] = temp;
-            }
-            System.out.println("Ітерація " + (i + 1) + ":");
             printArray(array);
         }
     }
 
     public static void printArray(int[][] array) {
-        for (int[] row : array) {
-            for (int num : row) {
-                System.out.print(num + " ");
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                System.out.print(array[i][j] + " ");
             }
             System.out.println();
         }
