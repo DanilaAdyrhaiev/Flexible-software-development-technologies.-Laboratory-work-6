@@ -26,15 +26,13 @@ public class Main {
         System.out.println("Початковий масив:");
         printArray(array);
 
-        for (int i = 0; i < length - 1; i++) {
-            int temp = array[i];
-            array[i] = array[i + 1];
-            array[i + 1] = temp;
-            System.out.println("Ітерація " + (i + 1) + ":");
+        for (int i = 0; i < shiftValue; i++) {
+            int[] copyArray = new int[array.length];
+            System.arraycopy(array, 0, copyArray, 1, length-1);
+            copyArray[0] = array[length-1];
+            array = copyArray;
             printArray(array);
         }
-
-        array[length - 1] = shiftValue;
         System.out.println("Остаточний масив після зміщення:");
         printArray(array);
     }
